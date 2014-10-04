@@ -29,16 +29,18 @@ feature {NONE} -- Initialization
 			print ("|d : RIGHT       |%N")
 			print ("|w : UP          |%N")
 			print ("|s : DOWN        |%N")
+			print ("|z : UNDO        |%N")
 			print ("|----------------|%N")
 			create controller.make
 			io.putstring (controller.board.out)
+			--read character
+				io.read_character
 			from
 
 			until
 			 	controller.is_finished or  io.last_character.is_equal ('q')
 			loop
-				--read character
-				io.read_character
+
 				--move left
 				if io.last_character.is_equal ('a') then
 					if controller.board.can_move_left then
@@ -72,8 +74,16 @@ feature {NONE} -- Initialization
 						io.put_string (controller.board.out)
 					end
 				end
-				--exit
-
+				--undo move
+				if io.last_character.is_equal ('z') then
+					if controller.can_undo_move then
+						controller.undo
+						--update board
+						io.put_string (controller.board.out)
+					end
+				end
+				--read character
+				io.read_character
 			end
 			--finish game
 			if	controller.is_finished 	then

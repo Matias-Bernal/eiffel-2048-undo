@@ -18,6 +18,7 @@ feature -- Initialisation
 			new_board /= Void
 		do
 			board := new_board
+			create history.make
 		ensure
 			board = new_board
 		end
@@ -25,10 +26,10 @@ feature -- Initialisation
 	make
 			-- Creates a controller from scratch. The controller must create the
 			-- classes that represent and take care of the logic of the game.
-
 		do
 			coord_last_random_cell := [0, 0]
 			create board.make
+			create history.make
 		ensure
 			board /= Void
 		end
@@ -43,6 +44,9 @@ feature -- Game State
 	board: BOARD_2048
 			-- Reference to the object that maintains the state of the game
 			-- and takes care of the games logic.
+
+	history: LINKED_STACK [TUPLE [BOARD_2048, TUPLE [INTEGER, INTEGER]]]
+			-- Reference to the object that maintains the history of the game
 
 	is_finished: BOOLEAN
 			-- Indicates whether the game is finished or not.
@@ -79,6 +83,7 @@ feature -- Movement commands
 			i, k, j: INTEGER
 		do
 				--First I add the cells that can be added
+			history.put ([board.clone_board_2048, last_random_cell_coordinates])
 			from
 				j := 1
 			until
@@ -160,6 +165,7 @@ feature -- Movement commands
 			i, j, aux: INTEGER
 		do
 				-- add all possible cells downward
+			history.put ([board.clone_board_2048, last_random_cell_coordinates])
 			from -- columns
 				i := 1
 			until
@@ -231,6 +237,7 @@ feature -- Movement commands
 		local
 			i, j, k: INTEGER
 		do
+			history.put ([board.clone_board_2048, last_random_cell_coordinates])
 			from
 				i := 1
 			until
@@ -286,13 +293,13 @@ feature -- Movement commands
 							j := j - 1; -- continues moving left
 						end
 					else
-						j:= j + 1
+						j := j + 1
 					end -- end if
 				end --end loop j
 				i := i + 1
 			end --end loop i
 			set_random_free_cell
-		end --end do	
+		end --end do
 
 	right
 			-- Moves the cells to the rightmost possible point of the game board.
@@ -304,6 +311,7 @@ feature -- Movement commands
 		local
 			i, j, k, v: INTEGER
 		do
+			history.put ([board.clone_board_2048, last_random_cell_coordinates])
 			from
 				i := 1
 			until
@@ -364,6 +372,30 @@ feature -- Movement commands
 			set_random_free_cell
 		end --end do
 
+	undo
+			-- Restore the board to previos state.
+			-- Restore the last random cell coordinates to previos value.
+		require
+			not history.is_empty
+		do
+			if attached {TUPLE [BOARD_2048, TUPLE [INTEGER, INTEGER]]} history.item as previous_move then
+				if attached {BOARD_2048} previous_move.item (1) as previous_board then
+					board := previous_board
+				end
+				if attached {TUPLE [INTEGER, INTEGER]} previous_move.item (2) as previous_coordinates then
+					coord_last_random_cell := previous_coordinates
+				end
+				history.remove
+			end
+		end
+
+	can_undo_move: BOOLEAN
+		require
+			history /= Void
+		do
+			Result := not history.is_empty
+		end
+
 feature {NONE} -- Auxiliary routines
 
 	position_right (row, val: INTEGER)
@@ -423,29 +455,30 @@ feature {NONE} -- Auxiliary routines
 		end
 
 Feature {SET_RANDOM_FREE_CELL_AT_CONTROLLER}
-set_random_free_cell
+
+	set_random_free_cell
 		require
 			not board.is_full
 		local
-		    random_sequence : RANDOM
-			random_cell_row : INTEGER
-			random_cell_col : INTEGER
+			random_sequence: RANDOM
+			random_cell_row: INTEGER
+			random_cell_col: INTEGER
 		do
-			--initialize random seed
-		    create random_sequence.set_seed(get_random_seed)
-			random_cell_row := get_random(random_sequence, 4) + 1;
-			random_cell_col := get_random(random_sequence, 4) + 1;
-		    from
-		    until
-		    	board.elements.item(random_cell_row, random_cell_col).is_available = True
-		    loop
-		    	--generate a random position
-				random_cell_row := get_random(random_sequence, 4) + 1;
-				random_cell_col := get_random(random_sequence, 4) + 1;
-		    end
-			-- set at cell random number
-			board.set_cell(random_cell_row, random_cell_col, random_number_two_or_four(random_sequence))
-			coord_last_random_cell := [random_cell_row,random_cell_col]
+				--initialize random seed
+			create random_sequence.set_seed (get_random_seed)
+			random_cell_row := get_random (random_sequence, 4) + 1;
+			random_cell_col := get_random (random_sequence, 4) + 1;
+			from
+			until
+				board.elements.item (random_cell_row, random_cell_col).is_available = True
+			loop
+					--generate a random position
+				random_cell_row := get_random (random_sequence, 4) + 1;
+				random_cell_col := get_random (random_sequence, 4) + 1;
+			end
+				-- set at cell random number
+			board.set_cell (random_cell_row, random_cell_col, random_number_two_or_four (random_sequence))
+			coord_last_random_cell := [random_cell_row, random_cell_col]
 		end
 
 end
