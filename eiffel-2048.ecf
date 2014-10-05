@@ -28,7 +28,7 @@
 				<tests name="board_2048" location=".\tests\board_2048\"/>
 				<tests name="app_2048" location=".\tests\app_2048\"/>
 			</cluster>
-			<cluster name="persistence" location="C:\Users\Matyas\Documents\Eiffel User Files\14.05\projects\eiffel-2048-undo\persistence\"/>
+			<cluster name="persistence" location=".\persistence\"/>
 		</cluster>
 	</target>
 </system>
