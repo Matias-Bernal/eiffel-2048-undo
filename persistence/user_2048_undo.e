@@ -31,7 +31,7 @@ feature -- Initialisation
 		-- Create a new user with existant user status
 	require
 		is_valid_password(existant_password)
-		is_valid_name(existant_nickname)
+		is_valid_nickname(existant_nickname)
 	do
 		id:=existant_id
 		nickname:=existant_nickname
@@ -45,7 +45,7 @@ feature -- Initialisation
 		-- Create a new user with all atributes
 	require
 		is_valid_password(new_password)
-		is_valid_name(new_nickname)
+		is_valid_nickname(new_nickname)
 	do
 		id:=new_id
 		nickname:=new_nickname
@@ -81,7 +81,7 @@ feature -- Status setting
 --			game := user_file.game
 --		end
 	ensure
-		(name /= Void) and (surname /= Void) and (password /= Void) and (game /= Void)
+		(password /= Void) and (game /= Void)
 	end
 
 	set_existant_unfinish_game(new_existant_unfinish_game: BOOLEAN)
@@ -94,20 +94,13 @@ feature -- Control methods
 	is_valid_password(pass_control: STRING): BOOLEAN
 		-- Validate if pass isnt void or empty
 	do
-		if
-			(pass_control /= Void) and (not pass_control.is_equal (""))
-		then
-			Result:=TRUE
-		end
+			Result:=(pass_control /= Void) and (not pass_control.is_equal (""))
 	end
 
 	is_valid_nickname(nickname_control: STRING): BOOLEAN
 	do
-		if
-			not nickname_control.is_empty or name.at (1).is_alpha
-		then
-			Result:=TRUE
-		end
+
+			Result:= not nickname_control.is_empty
 	end
 
 end
