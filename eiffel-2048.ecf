@@ -8,9 +8,10 @@
 		<setting name="console_application" value="true"/>
 		<precompile name="base_pre" location="$ISE_PRECOMP\base-safe.ecf"/>
 		<library name="base" location="$ISE_LIBRARY\library\base\base-safe.ecf"/>
+		<library name="store" location="$ISE_LIBRARY\library\store\store-safe.ecf"/>
 		<library name="testing" location="$ISE_LIBRARY\library\testing\testing-safe.ecf"/>
 		<library name="time" location="$ISE_LIBRARY\library\time\time-safe.ecf"/>
-		<cluster name="eiffel-2048" location=".\" recursive="false">
+		<cluster name="eiffel-2048" location=".\">
 			<file_rule>
 				<exclude>/EIFGENs$</exclude>
 				<exclude>/features$</exclude>
@@ -20,11 +21,12 @@
 			</file_rule>
 			<tests name="acceptance_tests" location=".\acceptance_tests\"/>
 			<cluster name="tests" location=".\tests\">
-		                <tests name="controller_2048" location=".\tests\controller_2048\"/>
-		                <tests name="cell_2048" location=".\tests\cell_2048\"/>
-		                <tests name="board_2048" location=".\tests\board_2048\"/>
-		                <tests name="app_2048" location=".\tests\app_2048\"/>
+				<tests name="controller_2048" location=".\tests\controller_2048\"/>
+				<tests name="cell_2048" location=".\tests\cell_2048\"/>
+				<tests name="board_2048" location=".\tests\board_2048\"/>
+				<tests name="app_2048" location=".\tests\app_2048\"/>
 			</cluster>
+			<cluster name="persistence" location="C:\Users\Matyas\Documents\Eiffel User Files\14.05\projects\eiffel-2048-undo\persistence\"/>
 		</cluster>
 	</target>
 </system>

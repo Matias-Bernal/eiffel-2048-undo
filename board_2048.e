@@ -138,7 +138,6 @@ feature -- Status report
 		local
 			i: INTEGER
 			j: INTEGER
-			current_cell: CELL_2048
 		do
 			from
 				i := 1
@@ -283,7 +282,7 @@ feature -- Status report
 		require
 			elements /= Void
 		local
-			i, j, k: INTEGER
+			i, j: INTEGER
 			can_move, cell_occupied: BOOLEAN
 		do
 			from
