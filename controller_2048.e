@@ -373,14 +373,14 @@ feature -- Movement commands
 		end --end do
 
 	undo
-			-- Restore the board to previos state.
-			-- Restore the last random cell coordinates to previos value.
+			-- Restores the previous state board.
+			-- When no movement history, does nothing
 		require
 			not history.is_empty
 		do
 			if attached {TUPLE [BOARD_2048, TUPLE [INTEGER, INTEGER]]} history.item as previous_move then
 				if attached {BOARD_2048} previous_move.item (1) as previous_board then
-					board := previous_board
+					board := previous_board -- asigned a board the previous state
 				end
 				if attached {TUPLE [INTEGER, INTEGER]} previous_move.item (2) as previous_coordinates then
 					coord_last_random_cell := previous_coordinates
