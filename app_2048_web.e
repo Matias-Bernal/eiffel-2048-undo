@@ -107,25 +107,25 @@ feature {NONE} -- Execution
 			elseif status = 3 then
 				Result.set_title ("2048-UNDO")
 
-				if(user_log_in /= Void) then
+				if(user_log_in /= Void) then -- The user is log in
 					if attached req.string_item ("message") as l_message then
-						if l_message.is_equal ("up") then
+						if l_message.is_equal ("up") then -- Press button 'w'
 							if controller.board.can_move_up then
 								controller.up
 							end
-						elseif l_message.is_equal ("down") then
+						elseif l_message.is_equal ("down") then -- Press button 's'
 							if controller.board.can_move_down then
 								controller.down
 							end
-						elseif l_message.is_equal ("left") then
+						elseif l_message.is_equal ("left") then -- Press button 'a'
 							if controller.board.can_move_left then
 								controller.left
 							end
-						elseif l_message.is_equal ("right") then
+						elseif l_message.is_equal ("right") then -- Press button 'd'
 							if controller.board.can_move_right then
 								controller.right
 							end
-						elseif l_message.is_equal ("undo") then
+						elseif l_message.is_equal ("undo") then -- Press button 'z'
 							if controller.can_undo_move then
 								controller.undo
 							end
