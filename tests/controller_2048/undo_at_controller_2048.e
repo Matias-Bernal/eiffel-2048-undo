@@ -1,10 +1,8 @@
 note
-	description: "[
-		Eiffel tests that can be executed by testing tool.
-	]"
-	author: "EiffelStudio test wizard"
-	date: "$Date$"
-	revision: "$Revision$"
+	description: "Tests for 'undo' in CONTROLLER_2048."
+	author: "Manefelice221187"
+	date: "october 6, 2014"
+	revision: "0.01"
 	testing: "type/manual"
 
 class
@@ -15,7 +13,7 @@ inherit
 
 feature -- Test routines
 
-	test_undo_at_controller_2048_with_moving_right
+	test_move_undo_at_controller_2048_with_moving_right
 			-- New test routine
 			-- Scenario: Moving RIGHT changes board state colapsing crashing cells with
 			--                        similar values
@@ -62,9 +60,38 @@ feature -- Test routines
 			assert ("Third row moved undo correctly", controller.board.elements.item (3, 1).value = 2)
 		end
 
-	-- test_move_undo_when_have_not_moves_previous
-	-- test_can_not_move_undo
-	-- test_move_undo_when_have_two_moves_previous
+	test_move_undo_when_have_not_moves_previous
+			--New test routine
+			-- Scenario:
+			--                Given the game board is in state
+			--                        |2 |  |  |  |
+			--                        |  |  |  |  |
+			--                        |  |  | 2|  |
+			--                        |  |  |  |  |
+			-- 				can not move undo, because have not history previously
+		local
+		board: BOARD_2048
+		controller: CONTROLLER_2048
+		failed, second_time: BOOLEAN
+		do
+			if not second_time then
+				failed := True
+				create board.make_empty
+				create controller.make_with_board (board)
+				controller.board.set_cell (1, 1, 2)
+				controller.board.set_cell (3, 3, 2)
+				controller.undo
+				failed := False
+			end
+			assert ("can not aplicated move undo", failed)
+			rescue
+     			second_time := True
+     			if failed then   -- failed = true means that the rutine failed
+           			retry
+    			end
+		end
+
+
 
 end
 
