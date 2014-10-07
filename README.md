@@ -43,8 +43,6 @@ The functionalities currently missing or being implemented are:
 3. Web interface.
 
   
-Guide
-=====
 
 Installation
 ============
