@@ -8,7 +8,7 @@ class
 	CONTROLLER_2048
 
 create
-	make, make_with_board
+	make, make_with_board, make_with_board_and_history
 
 feature -- Initialisation
 
@@ -32,6 +32,19 @@ feature -- Initialisation
 			create history.make
 		ensure
 			board /= Void
+		end
+
+	make_with_board_and_history (new_board: BOARD_2048; new_history: LINKED_STACK [TUPLE [BOARD_2048, TUPLE [INTEGER, INTEGER]]])
+			-- Creates a controller with reference to a provided board and history
+		require
+			new_board /= Void
+			new_history  /= Void
+		do
+			board := new_board
+			history:=new_history
+		ensure
+			board = new_board
+			history = new_history
 		end
 
 feature {ANY}
