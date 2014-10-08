@@ -93,11 +93,15 @@ feature -- Control methods
 
 	is_valid_password(pass_control: STRING): BOOLEAN
 		-- Validate if pass isnt void or empty
+	require
+		password /= Void
 	do
 			Result:=(pass_control /= Void) and (not pass_control.is_equal (""))
 	end
 
 	is_valid_nickname(nickname_control: STRING): BOOLEAN
+	require
+		nickname /= Void
 	do
 
 			Result:= not nickname_control.is_empty
