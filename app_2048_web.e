@@ -54,8 +54,7 @@ feature {NONE} -- Execution
 			--Result.add_javascript_url ("https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.js")
 			Result.add_javascript_url ("https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
 			Result.add_javascript_content("function getChoice(keyCode){var ret='';if (keyCode == 119)ret = 'up';if (keyCode == 115)ret = 'down';if (keyCode == 100)ret = 'right';if (keyCode == 97)ret = 'left';return ret;}")
-			Result.add_javascript_content ("$(document).keypress(function (e) {var key = getChoice(e.keyCode);if(key != ''){$.ajax({type : 'POST',url:'http://localhost:9999/',data:{message:key},contentType:'json',headers: {Accept : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8','Content-Type': 'application/x-www-form-urlencoded'}}).done(function(data){document.open();document.write(data);document.close();})}})")
-			Result.add_javascript_content (load_board)
+			Result.add_javascript_content ("$(document).keypress(function (e) {var key = getChoice(e.keyCode);if(key != ''){$.ajax({type : 'POST',url:'http://localhost:9999/',data:{message:key},contentType:'json',headers: {Accept : 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8','Content-Type': 'application/x-www-form-urlencoded'}}).done(function(data){document.open();document.write(data);document.close();eval(document);})}})")
 			if status = 0 then
 				--Main Menu
 				Result.set_title ("2048-UNDO / MAIN MENU")
@@ -63,16 +62,16 @@ feature {NONE} -- Execution
 					Result.set_body (print_html_main_menu)
 					show_main_menu:=False
 				else
-					if attached req.string_item ("login") as o_login then
+					if attached req.string_item ("login") as o_login then --SI SE LOGUEA
 						if (attached req.string_item ("nickname") as nickname) and (attached req.string_item ("password") as password) then
 							if(login(nickname,password))then
 								user_log_in.load_game
 								if(user_log_in.has_unfinished_game)then
 									controller := user_log_in.game
 								end
-								Result.set_title ("2048-UNDO / USER: "+nickname.as_upper.out)
+								Result.set_title ("2048-UNDO / USER: "+nickname.as_upper.out) --MOSTAR EL JUEGO
+								Result.add_javascript_content (load_board)
 								Result.set_body (print_html_game)
-
 								status := 3
 							else
 								Result.set_body (print_html_main_menu)
@@ -80,14 +79,15 @@ feature {NONE} -- Execution
 							end
 						end
 					end
-					if attached req.string_item ("new_user")  as o_new_user then
+					if attached req.string_item ("new_user")  as o_new_user then -- HACE UN USUARIO NUEVO
 						if (attached req.string_item ("nickname") as nickname) and (attached req.string_item ("password") as password) then
 							if(not login(nickname,password))then
 								create user_log_in.make_new_user (nickname, password, controller)
 								user_log_in.save_game (controller)
-								Result.set_title ("2048-UNDO / USER: "+nickname.as_upper.out)
-								Result.set_body (print_html_game)
 
+								Result.set_title ("2048-UNDO / USER: "+nickname.as_upper.out) --MOSTRAR EL JUEGO
+								Result.add_javascript_content (load_board)
+								Result.set_body (print_html_game)
 								status := 3
 							else
 								Result.set_body (print_html_main_menu)
@@ -135,6 +135,7 @@ feature {NONE} -- Execution
 								controller.undo
 							end
 						end
+						Result.add_javascript_content (load_board)
 						Result.set_body (print_html_game)
 						if controller.board.is_winning_board then
 							Result.add_javascript_content ("alert('YOU WON!!!!!!!!!!!!!!')")
@@ -251,53 +252,53 @@ feature {NONE} -- Execution
 					</div>
 					<div class="tile-container">
 						<div ng-app="myapp" ng-controller="GameController">
-						<div class="tile tile-2 tile-position-1-1 tile-new">
-							<div class="tile-inner">{{cell_1_1}}</div>
+						<div class="tile tile-2 tile-position-1-1 tile-new ">
+							<div class="tile-inner" ng-bind="cell_1_1"></div>
 						</div>
 						<div class="tile tile-2 tile-position-1-2 tile-new">
-							<div class="tile-inner">{{cell_1_2}}</div>
+							<div class="tile-inner" ng-bind="cell_1_2"></div>
 						</div>
 						<div class="tile tile-2 tile-position-1-3 tile-new">
-							<div class="tile-inner">{{cell_1_3}}</div>
+							<div class="tile-inner" ng-bind="cell_1_3"></div>
 						</div>
 						<div class="tile tile-2 tile-position-1-4 tile-new">
-							<div class="tile-inner">{{cell_1_4}}</div>
+							<div class="tile-inner" ng-bind="cell_1_4"></div>
 						</div>
 						<div class="tile tile-2 tile-position-2-1 tile-new">
-							<div class="tile-inner">{{cell_2_1}}</div>
+							<div class="tile-inner" ng-bind="cell_2_1"></div>
 						</div>
 						<div class="tile tile-2 tile-position-2-2 tile-new">
-							<div class="tile-inner">{{cell_2_2}}</div>
+							<div class="tile-inner" ng-bind="cell_2_2"></div>
 						</div>
 						<div class="tile tile-2 tile-position-2-3 tile-new">
-							<div class="tile-inner">{{cell_2_3}}</div>
+							<div class="tile-inner" ng-bind="cell_2_3"></div>
 						</div>
 						<div class="tile tile-2 tile-position-2-4 tile-new">
-							<div class="tile-inner">{{cell_2_4}}</div>
+							<div class="tile-inner" ng-bind="cell_2_4"></div>
 						</div>
 						<div class="tile tile-2 tile-position-3-1 tile-new">
-							<div class="tile-inner">{{cell_3_1}}</div>
+							<div class="tile-inner" ng-bind="cell_3_1"></div>
 						</div>
 						<div class="tile tile-2 tile-position-3-2 tile-new">
-							<div class="tile-inner">{{cell_3_2}}</div>
+							<div class="tile-inner" ng-bind="cell_3_2"></div>
 						</div>
 						<div class="tile tile-2 tile-position-3-3 tile-new">
-							<div class="tile-inner">{{cell_3_3}}</div>
+							<div class="tile-inner" ng-bind="cell_3_3"></div>
 						</div>
 						<div class="tile tile-2 tile-position-3-4 tile-new">
-							<div class="tile-inner">{{cell_3_4}}</div>
+							<div class="tile-inner" ng-bind="cell_3_4"></div>
 						</div>
 						<div class="tile tile-2 tile-position-4-1 tile-new">
-							<div class="tile-inner">{{cell_4_1}}</div>
+							<div class="tile-inner" ng-bind="cell_4_1"></div>
 						</div>
 						<div class="tile tile-2 tile-position-4-2 tile-new">
-							<div class="tile-inner">{{cell_4_2}}</div>
+							<div class="tile-inner" ng-bind="cell_4_2"></div>
 						</div>
 						<div class="tile tile-2 tile-position-4-3 tile-new">
-							<div class="tile-inner">{{cell_4_3}}</div>
+							<div class="tile-inner" ng-bind="cell_4_3"></div>
 						</div>
 						<div class="tile tile-2 tile-position-4-4 tile-new">
-							<div class="tile-inner">{{cell_4_4}}</div>
+							<div class="tile-inner" ng-bind="cell_4_4"></div>
 						</div>
 					</div>
 				</div>
@@ -338,7 +339,7 @@ feature {NONE} -- Execution
 			js: STRING
 			col,row: INTEGER
 		do
-			js:= "var myapp = angular.module('myapp', []).controller('GameController',function ($scope){ "
+			js:= "alert('pre LOAD BOARD'); try{ angular.module('myapp', []).controller('GameController',function ($scope){ "
 			from
 				col := 1
 			until
@@ -361,11 +362,9 @@ feature {NONE} -- Execution
 				end
 				col := col + 1
 			end
-			js.append ("});")
+			js.append ("; alert('LOAD BOARD');});}catch(err){alert(err.message)}")
 			Result := js
 		end
-
-
 
 
 
