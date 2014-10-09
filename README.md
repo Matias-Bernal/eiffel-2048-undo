@@ -42,7 +42,8 @@ The functionalities currently missing or being implemented are:
 2. Client-Server architecture.
 3. Web interface.
 
-  
+Guide
+------------------
 
 Installation
 ============
@@ -66,8 +67,8 @@ Using EiffelStudio
 
 Playing
 =======
-
-- To play the game, press w, a, s, d, z to move the tiles up, left, down, right and undo respectively.
+- To play must create a new user or logging in
+- Press w, a, s, d, z to move the tiles up, left, down, right and undo respectively.
 - In a movement, each pair of colliding tiles with the same number will combine. Continue doing this until you get the 2048 tile or you don't have any move available.
 - This variant allows you to undo all the steps that want to choose another option.
 - You win the game when you get the 2048 tile.
@@ -77,7 +78,6 @@ Playing
 
 [gabriele]: http://gabrielecirulli.com
 [2048]: http://git.io/2048
-//Aqui va la direccion donde va 2048-Undo//
 [alpha-release]: https://github.com/Matias-Bernal/eiffel-2048-undo/releases
 [Design-by-contract]: http://en.wikipedia.org/wiki/Design_by_contract
 [TDD]: http://en.wikipedia.org/wiki/Test-driven_development
