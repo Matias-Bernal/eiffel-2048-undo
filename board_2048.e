@@ -196,6 +196,49 @@ feature -- Status report
 			Result.count > 0
 		end
 
+	to_json_array: STRING
+		require
+			elements /= Void
+		local
+			row: INTEGER
+			col: INTEGER
+			output: STRING
+		do
+			output := "["
+			from
+				row := 1
+			until
+				row> rows
+			loop
+				output.append_string ("[")
+				from
+					col:= 1
+				until
+					col>columns
+				loop
+					if(elements.item (row, col).value /= 0) then
+						output.append_string (elements.item (row, col).out)
+					else
+						output.append_string ("0")
+					end
+					col:=col+1
+
+					if(col <= columns) then
+						output.append (",")
+					end
+				end
+				output.append_string ("]")
+				row:=row+1
+				if(row <= rows) then
+					output.append (",")
+				end
+			end
+			output.append_string ("]")
+			Result := output
+		ensure
+			Result.count>0
+		end
+
 	is_full: BOOLEAN
 			-- Indicates if all cells in the board are set or not
 		do

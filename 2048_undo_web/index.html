@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html ng-app="2048Undo">
+<head>
+<meta charset="UTF-8">
+
+<link rel="stylesheet" type="text/css" href="css/main.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/signin.css">
+
+<script type='text/javascript' src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/angular.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="app/undo.js"></script>
+<script type="text/javascript" src="app/controllers/controllers.js"></script>
+    
+<title> 2048 - UNDO </title>
+    
+</head>
+<body ng-controller="GameController" ng-init="init()">
+
+    
+    <div align="center" class="container">
+		<div align="center" class="container" id="dinamic_menu" name="dinamic_menu">
+            <!-- dinamic menu -->
+            <form class='form-signin' form action='/' method='POST' role='form' id='649512336'>
+               <h1><span class='label label-default' align='center'> 2048 UNDO </span></h1><br>
+               <input type='nickname' ng-model='user' class='form-control' placeholder='Nickname' required='' autofocus=''>
+               <input type='password' ng-model='password' class='form-control' placeholder='Password' required='' autofocus=''>
+               <input class='btn btn-lg btn-primary btn-block' type='button' ng-click='loginUser()' value='Login User'/>
+               <input class='btn btn-lg btn-primary btn-block' type='button' ng-click='newUser()' value='New User'/>
+            </form>
+		</div>
+
+        <p>Join the numbers and get to the 2048 tile!</p>
+        <p>Hit 'z' to take back one or more moves</p>
+		<div class="game-container">
+			<div class="grid-container">
+				<div class="grid-row">
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+				</div>
+				<div class="grid-row">
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+				</div>
+				<div class="grid-row">
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+				</div>
+				<div class="grid-row">
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+					<div class="grid-cell"></div>
+				</div>
+			</div>
+		    <div class="tile-container">
+			    <div class="tile tile-2 tile-position-1-1 tile-new ">
+                    <div class="tile-inner" ng-bind="cell_1_1"></div>
+				</div>
+				<div class="tile tile-2 tile-position-1-2 tile-new">
+					<div class="tile-inner" ng-bind="cell_1_2"></div>
+				</div>
+				<div class="tile tile-2 tile-position-1-3 tile-new">
+				    <div class="tile-inner" ng-bind="cell_1_3"></div>
+				</div>
+                <div class="tile tile-2 tile-position-1-4 tile-new">
+                    <div class="tile-inner" ng-bind="cell_1_4"></div>
+                </div>
+                <div class="tile tile-2 tile-position-2-1 tile-new">
+                    <div class="tile-inner" ng-bind="cell_2_1"></div>
+                </div>
+                <div class="tile tile-2 tile-position-2-2 tile-new">
+                    <div class="tile-inner" ng-bind="cell_2_2"></div>
+                </div>
+                <div class="tile tile-2 tile-position-2-3 tile-new">
+                    <div class="tile-inner" ng-bind="cell_2_3"></div>
+                </div>
+                <div class="tile tile-2 tile-position-2-4 tile-new">
+                    <div class="tile-inner" ng-bind="cell_2_4"></div>
+                </div>
+                <div class="tile tile-2 tile-position-3-1 tile-new">
+                    <div class="tile-inner" ng-bind="cell_3_1"></div>
+                </div>
+                <div class="tile tile-2 tile-position-3-2 tile-new">
+                    <div class="tile-inner" ng-bind="cell_3_2"></div>
+                </div>
+                <div class="tile tile-2 tile-position-3-3 tile-new">
+                    <div class="tile-inner" ng-bind="cell_3_3"></div>
+                </div>
+                <div class="tile tile-2 tile-position-3-4 tile-new">
+                    <div class="tile-inner" ng-bind="cell_3_4"></div>
+                </div>
+                <div class="tile tile-2 tile-position-4-1 tile-new">
+                    <div class="tile-inner" ng-bind="cell_4_1"></div>
+                </div>
+                <div class="tile tile-2 tile-position-4-2 tile-new">
+                    <div class="tile-inner" ng-bind="cell_4_2"></div>
+                </div>
+                <div class="tile tile-2 tile-position-4-3 tile-new">
+                    <div class="tile-inner" ng-bind="cell_4_3"></div>
+                </div>
+                <div class="tile tile-2 tile-position-4-4 tile-new">
+                    <div class="tile-inner" ng-bind="cell_4_4"></div>
+                </div>
+			</div>
+	   </div>
+        <br>
+        <p>How to play: Use your A,S,W,D keys to move the tiles or Z key to undo. When two tiles with the same number touch, they merge into one!</p>
+    </div>
+</body>
